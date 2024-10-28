@@ -15,6 +15,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# 음성 데이터를 저장할 폴더 media 생성
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'  # 지정된 경로에 media 폴더가 없으면 자동으로 생성
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
