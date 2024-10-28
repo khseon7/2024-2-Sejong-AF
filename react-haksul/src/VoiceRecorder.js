@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const VoiceRecorder = () => {
     const [isRecording, setIsRecording] = useState(false);
@@ -95,7 +95,7 @@ const VoiceRecorder = () => {
         <button onClick={handleButtonClick}>
             {isRecording ? '종료' : '입력'}
         </button>
-        {audioUrl && (
+        {fullAudioUrl && (
             <div>
             <h3>전체 녹음:</h3>
             <audio src={fullAudioUrl} controls />
