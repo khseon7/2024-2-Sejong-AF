@@ -4,7 +4,7 @@ import VoiceRecorder from './VoiceRecorder';
 
 function App() {
   useEffect(()=>{
-    document.title='슬기샘';
+    document.title='학습나래';
   },[]);
   return (
     <div className="App">
