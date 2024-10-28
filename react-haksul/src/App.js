@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import VoiceRecorder from './VoiceRecorder';
 
 function App() {
   return (
@@ -17,6 +19,10 @@ function App() {
         >
           Learn React
         </a>
+        <div>
+          <h1>음성 녹음 앱</h1>
+          <VoiceRecorder />
+        </div>
       </header>
     </div>
   );
