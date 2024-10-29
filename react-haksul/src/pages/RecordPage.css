@@ -1,0 +1,230 @@
+/* Header */
+.app {
+    width: 100%;
+    height: 100%;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    height: 60vx;
+    width: 100vx;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 20px; /* 헤더 높이를 일정하게 유지하기 위한 padding 조정 */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.logo-react {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* overflow: hidden; */
+    display: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-circle {
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7dede;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* .logo-image {
+    width: 100%;
+    height: auto;
+} */
+
+.project-name {
+    font-size: 28px; /* 폰트 크기 조정 */
+    font-weight: bold;
+    color: #a30000;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    background-color: #f7dede;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.profile-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fce8e8;
+}
+
+.profile-image {
+    width: 30px;
+    height: 30px;
+}
+
+.profile-name {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Container Layout */
+.container_app {
+    display: flex;
+    height: calc(100vh - 130px);
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #fafafa;
+}
+
+/* Sidebar */
+.sidebar {
+    height: 95%;
+    width: 20%;
+    background-color: #f7dede;
+    margin-right:0;
+    padding: 10px;
+    box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.hidden-toggle {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: none;
+    font-size: 20px;
+    background-color: #f1c7c7;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.toggle-sidebar {
+    font-size: 15px;
+    background-color: #a30000;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.sidebar.hidden {
+    display: none;
+}
+
+.sidebar h3 {
+    font-size: 22px;
+    color: #a30000;
+    border-bottom: 2px solid #f1c7c7;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 10px 0;
+    border-bottom: 1px solid #f1c7c7;
+    color: #333;
+}
+
+/* Content */
+.content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff4f4;
+    transition: width 0.3s ease;
+}
+
+.icon-bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 5%;
+    width: 87%;
+    /* max-width: 800px; */
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: -20px;
+}
+
+.icon-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 60%;
+}
+
+.icon-text{
+    font-size:16px;
+}
+
+.icon-button:hover {
+    color: #a30000;
+}
+
+.icon-button img.icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 6px;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#widgetDisplay {
+    width: 90%;
+    height: 85%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #333;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #e5c1c1;
+    color: #a30000;
+    font-weight: bold;
+    font-size: 15px;
+    border-top: 1px solid #d1a0a0;
+}
