@@ -1,8 +1,8 @@
 import './App.css';
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MainPage from './pages/mainpage';
-import Record from './pages/record';
+import MainPage from './pages/MainPage';
+import Record from './pages/RecordPage';
 
 function App() {
   useEffect(() => {
