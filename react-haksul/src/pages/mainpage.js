@@ -1,5 +1,5 @@
 import React from 'react';
-import './mainpage.css';
+import './MainPage.css';
 import { Link } from 'react-router-dom';
 
 function ProjectPage() {
@@ -9,7 +9,7 @@ function ProjectPage() {
             <Link to='/record'>
                 <button className="login-button">로그인</button>
             </Link>
-            
+
             <div className="container">
             <div className="info">
                 <h1>학습나래</h1>
