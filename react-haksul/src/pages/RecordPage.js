@@ -18,6 +18,8 @@ function App() {
     const [showImageUploadModal, setShowImageUploadModal] = useState(false); // 이미지 팝업 모달
     const [selectedImages, setSelectedImages] = useState([]); // 여러 이미지를 저장할 상태
 
+    const [transcriptions, setTranscriptions] = useState({}); // mp3 to text
+
     const mediaRecorder = useRef(null); // 녹음 관련
     const audioChunks = useRef([]); // 녹음 관련
     const intervalId = useRef(null); 
@@ -184,6 +186,22 @@ function App() {
         // PDF 업로드 기능 구현
     };
 
+    // 녹음본 STT
+    const fetchTranscriptions = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/transcribe-audio/');
+            if (response.ok) {
+                const data = await response.json();
+                setTranscriptions(data.transcriptions);
+            } else {
+                console.error("텍스트 변환 요청에 실패했습니다.");
+            }
+        } catch (error) {
+            console.error("요청 중 오류 발생:", error);
+        }
+    };
+    // 녹음본 STT
+
     return (
         <div className="app">
         <div className="header">
@@ -233,10 +251,48 @@ function App() {
                         <img src={pdfIcon} alt="PDF" className="icon" />
                         <span className="icon-text">PDF</span>
                     </div>
+                    <button className="translate-button" onClick={fetchTranscriptions}>번역</button> {/* 번역 버튼 추가 */}
                 </div>
+                {/* <div className="main">
+                    <div id="widgetDisplay">
+                            {Object.entries(transcriptions).map(([key, value]) => (
+                                <div key={key}>
+                                    <h4>{key}</h4>
+                                    {typeof value === 'object' && value !== null ? (
+                                        <div>
+                                            {Object.entries(value).map(([subKey, subValue]) => (
+                                                <p key={subKey}>
+                                                    <strong>{subKey}:</strong> {subValue}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p>{value}</p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                </div> */}
                 <div className="main">
-                    <div id="widgetDisplay">여기에 번역 , 요약 나옴</div>
-                </div>
+    <div id="widgetDisplay" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {Object.entries(transcriptions).map(([key, value]) => (
+            <div key={key} style={{ padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
+                <h4 style={{ marginBottom: '0.5rem' }}>{key}</h4>
+                {typeof value === 'object' && value !== null ? (
+                    <div>
+                        {Object.entries(value).map(([subKey, subValue]) => (
+                            <p key={subKey} style={{ margin: '0.5rem 0' }}>
+                                <strong>{subKey}:</strong> {subValue}
+                            </p>
+                        ))}
+                    </div>
+                ) : (
+                    <p>{value}</p>
+                )}
+            </div>
+        ))}
+    </div>
+</div>
             </div>
         </div>
         
