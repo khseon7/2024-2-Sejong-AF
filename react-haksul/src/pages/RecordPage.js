@@ -27,6 +27,7 @@ function App() {
     // toggleSTT 관련 함수들
     const toggleSTT = () => {
         setIsListening((prev) => !prev);
+        audioChunks.current=[];
     };
 
     const createFullAudioBlob = useCallback(() => {
@@ -48,8 +49,17 @@ function App() {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     mediaRecorder.current = new MediaRecorder(stream);
 
+                    // mediaRecorder.current.ondataavailable = (event) => {
+                    //     audioChunks.current.push(event.data);
+                    // };
+
+                    audioChunks.current = []; // 녹음 시작 시 audioChunks 초기화
+
                     mediaRecorder.current.ondataavailable = (event) => {
-                        audioChunks.current.push(event.data);
+                        if (event.data && event.data.size > 0) {
+                            audioChunks.current.push(event.data);
+                            console.log("Data available:", event.data);
+                        }
                     };
 
                     mediaRecorder.current.onstart = () => {
