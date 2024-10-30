@@ -1,11 +1,12 @@
+import os
+from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import AudioRecording, ImageUpload
-from django.core.files.storage import default_storage
+from .all_class import WhisperSTT
 
 # Create your views here.
-
 @csrf_exempt
 def upload_audio(request):
     if request.method=='POST':
@@ -32,3 +33,15 @@ def upload_images(request):
 
         return JsonResponse({'message': '이미지 업로드 성공', 'files': saved_files})
     return JsonResponse({'error': '잘못된 요청입니다'}, status=400)
+
+def transcribe_audio_files(request):
+    audio_dir=os.path.join(settings.MEDIA_ROOT,'audio_files')
+    transcriptions={}
+    whisper_stt=WhisperSTT()
+    
+    for filename in os.listdir(audio_dir):
+        if filename.endswith('.mp3'):
+            file_path=os.path.join(audio_dir,filename)
+            transcription = whisper_stt.transcribe(file_path)
+            transcriptions[filename]=transcription
+    return JsonResponse({'transcriptions':transcriptions})
