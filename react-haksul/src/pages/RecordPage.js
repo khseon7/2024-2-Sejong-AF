@@ -9,16 +9,18 @@ import imageIcon from './image-icon.png';
 
 function App() {
     const [isSidebarHidden, setIsSidebarHidden] = useState(false);
-    // 음향 다운 받기 위함
-    const [isListening, setIsListening] = useState(false);
-    const [audioBlobs, setAudioBlobs] = useState([]);
-    const [fullAudioUrl, setFullAudioUrl] = useState(null);
-    const [showModal, setShowModal]=useState(false); // 팝업 모달 표시 여부 상태
+    
+    const [isListening, setIsListening] = useState(false); // 녹음 관련
+    const [audioBlobs, setAudioBlobs] = useState([]); // 녹음 관련
+    const [fullAudioUrl, setFullAudioUrl] = useState(null); // 녹음 관련
+    const [showModal, setShowModal]=useState(false); // 녹음 팝업 모달
 
-    const mediaRecorder = useRef(null);
-    const audioChunks = useRef([]);
-    const intervalId = useRef(null);
-    // 음향 다운 받기 위함
+    const [showImageUploadModal, setShowImageUploadModal] = useState(false); // 이미지 팝업 모달
+    const [selectedImages, setSelectedImages] = useState([]); // 여러 이미지를 저장할 상태
+
+    const mediaRecorder = useRef(null); // 녹음 관련
+    const audioChunks = useRef([]); // 녹음 관련
+    const intervalId = useRef(null); 
 
     const toggleSidebar = () => {
         setIsSidebarHidden(!isSidebarHidden);
@@ -71,6 +73,9 @@ function App() {
                         clearInterval(intervalId.current);
                         saveAudioBlob();
                         createFullAudioBlob();
+
+                        audioChunks.current=[];
+
                         stream.getTracks().forEach((track) => track.stop()); // Stop all audio tracks
                     };
 
@@ -135,14 +140,45 @@ function App() {
     }
     // toggleSTT 관련 기능
 
-
     const capturePhoto = () => {
         // 사진 촬영 기능 구현
     };
 
+    // 이미지 업로드
     const uploadImage = () => {
-        // 이미지 업로드 기능 구현
+        setShowImageUploadModal(true);
     };
+    const handleImageSelection = (event) => {
+        setSelectedImages([...event.target.files]); // 선택한 파일들을 배열로 저장
+    };
+
+    const handleImageUpload = async () => {
+        if (selectedImages.length === 0) return;
+
+        const formData = new FormData();
+        selectedImages.forEach((image, index) => {
+            formData.append(`image_${index}`, image); // 각 이미지 파일을 formData에 추가
+        });
+
+        try {
+            const response = await fetch('http://localhost:8000/upload-images/', { // Django 백엔드의 엔드포인트
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                alert('이미지가 성공적으로 업로드되었습니다!');
+                setSelectedImages([]); // 성공적으로 업로드 후 선택된 이미지 초기화
+                setShowImageUploadModal(false); // 업로드 후 모달 닫기
+            } else {
+                alert('이미지 업로드 중 오류가 발생했습니다.');
+            }
+        } catch (error) {
+            console.error('업로드 오류:', error);
+            alert('업로드 중 오류가 발생했습니다.');
+        }
+    };
+    // 이미지 업로드 기능
 
     const uploadPDF = () => {
         // PDF 업로드 기능 구현
@@ -204,7 +240,7 @@ function App() {
             </div>
         </div>
         
-        {/* 팝업창 */}
+        {/* 녹음 팝업창 */}
         {showModal && (
                 <div className="modal">
                     <div className="modal-content">
@@ -213,6 +249,21 @@ function App() {
                         <audio src={fullAudioUrl} controls />
                         <a href={fullAudioUrl} download="complete_recording.mp3">전체 MP3 파일 다운로드</a>
                         <button onClick={handleUpload}>Upload</button>
+                    </div>
+                </div>
+            )}
+        
+        {/* 이미지 팝업창 */}
+        {showImageUploadModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={() => setShowImageUploadModal(false)}>&times;</span>
+                        <h3>이미지 업로드</h3>
+                        <input type="file" accept="image/*" multiple onChange={handleImageSelection} />
+                        {selectedImages.length > 0 && (
+                            <p>{selectedImages.length}개의 이미지가 선택되었습니다.</p>
+                        )}
+                        <button onClick={handleImageUpload}>업로드</button>
                     </div>
                 </div>
             )}
