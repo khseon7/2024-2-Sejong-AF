@@ -13,7 +13,8 @@ function App() {
     const [isListening, setIsListening] = useState(false);
     const [audioBlobs, setAudioBlobs] = useState([]);
     const [fullAudioUrl, setFullAudioUrl] = useState(null);
-    
+    const [showModal, setShowModal]=useState(false); // 팝업 모달 표시 여부 상태
+
     const mediaRecorder = useRef(null);
     const audioChunks = useRef([]);
     const intervalId = useRef(null);
@@ -32,6 +33,7 @@ function App() {
         const completeBlob = new Blob(audioBlobs, { type: 'audio/mp3' });
         const completeAudioUrl = URL.createObjectURL(completeBlob);
         setFullAudioUrl(completeAudioUrl);
+        setShowModal(true); // 오디오 생성시 모달 표시
     }, [audioBlobs]);
 
     useEffect(() => {
@@ -117,6 +119,10 @@ function App() {
             alert('업로드 중 오류가 발생했습니다.');
         }
     };
+    
+    const closeModal = () =>{
+        setShowModal(false);
+    }
     // toggleSTT 관련 기능
 
 
@@ -187,13 +193,17 @@ function App() {
                 </div>
             </div>
         </div>
-
-        {fullAudioUrl && (
-                <div>
-                    <h3>전체 녹음:</h3>
-                    <audio src={fullAudioUrl} controls />
-                    <a href={fullAudioUrl} download="complete_recording.mp3">전체 MP3 파일 다운로드</a>
-                    <button onClick={handleUpload}>Upload</button>
+        
+        {/* 팝업창 */}
+        {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={closeModal}>&times;</span>
+                        <h3>전체 녹음:</h3>
+                        <audio src={fullAudioUrl} controls />
+                        <a href={fullAudioUrl} download="complete_recording.mp3">전체 MP3 파일 다운로드</a>
+                        <button onClick={handleUpload}>Upload</button>
+                    </div>
                 </div>
             )}
 
