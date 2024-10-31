@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import AudioRecording, ImageUpload
-from .all_class import WhisperSTT
+from .all_class import WhisperSTT, myOCR
 
 # Create your views here.
 @csrf_exempt
@@ -45,3 +45,15 @@ def transcribe_audio_files(request):
             transcription = whisper_stt.transcribe(file_path)
             transcriptions[filename]=transcription
     return JsonResponse({'transcriptions':transcriptions})
+
+def convert_images_to_text(request):
+    photo_dir=os.path.join(settings.MEDIA_ROOT,'photo')
+    transcriptions={}
+    
+    for filename in os.listdir(photo_dir):
+        if filename.endswith('.jpg') or filename.endswith('.png'):
+            image_path = os.path.join(photo_dir, filename)
+            ocr_result = myOCR().predict(image_path)  # MyOCR 클래스를 사용한 텍스트 변환
+            transcriptions[filename] = ocr_result
+
+    return JsonResponse({'transcriptions': transcriptions})
