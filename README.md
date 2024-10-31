@@ -6,11 +6,11 @@
 ```
 pip install -r requirements.txt
 ```
-3. react-haksul/에 들어가서 터미널에 아래 코드 실행
+3. `react-haksul/`에 들어가서 터미널에 아래 코드 실행
 ```
 npm install
 ```
-4. `subprocess` 모듈을 사용하여서 터미널에서 아래 코드를 실행하여 Django와 React를 전부 실행한다.
+4. `start_both.py`가 있는 폴더에 들어가서 터미널에 아래 코드를 실행하면 Django와 React를 전부 실행된다.
 ```
 python start_both.py
 ```
