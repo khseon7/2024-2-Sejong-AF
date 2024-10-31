@@ -10,6 +10,9 @@ pip install -r requirements.txt
 ```
 npm install
 ```
-4. `subprocess` 모듈을 사용하여서 터미널에서 `python start_both.py`를 실행하여 Django와 React를 전부 실행한다.
+4. `subprocess` 모듈을 사용하여서 터미널에서 아래 코드를 실행하여 Django와 React를 전부 실행한다.
+```
+`python start_both.py`
+```
 5. 4.를 실행했을 때 아래와 같은 화면이 나오면 성공!
 <img width="1512" alt="image" src="https://github.com/user-attachments/assets/eba01c04-2325-49bb-9778-e375ecf59cfa">
