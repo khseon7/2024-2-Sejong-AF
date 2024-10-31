@@ -15,9 +15,7 @@ npm install
 python start_both.py
 ```
 5. 위 코드를 실행했을 때 아래와 같은 화면이 나오면 성공!
-<img width="1512" alt="image" src="https://github.com/user-attachments/assets/eba01c04-2325-49bb-9778-e375ecf59cfa">
-
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fgjbae1212%2Fhit-counter)](https://hits.seeyoufarm.com)
+<img width="1512" alt="image" src="https://github.com/user-attachments/assets/eba01c04-2325-49bb-9778-e375ecf59cfa">                   
 
 <div align="center">
   <h3>📖기술 스택📖</h3>
