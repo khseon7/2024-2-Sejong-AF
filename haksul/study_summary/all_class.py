@@ -1,5 +1,5 @@
-import whisper
-import ssl
+import whisper, ssl, cv2
+from easyocr import Reader
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -24,3 +24,24 @@ class WhisperSTT:
     # stt = WhisperSTT(model_name="base")
     # transcription = stt.transcribe("hihi.mp3")
     # print(transcription)
+
+class myOCR:
+    def __init__(self, langs=['ko', 'en']):
+            myOCR.reader = Reader(lang_list=langs, gpu=False)
+
+    def predict(self, image):
+        preprocessed_image = cv2.imread(image)
+        results = myOCR.reader.readtext(preprocessed_image)
+        
+        extracted_text = ""
+        for (bbox, text, prob) in results:
+            print(f"[INFO] {prob:.4f}: {text}")
+            extracted_text += text + "\n"
+        
+        return extracted_text
+    
+    # 사용 예시
+    # image = ImageURL
+    # ocr_model = myOCR()
+    # extracted_text = ocr_model.predict(image)
+    # print("\n추출된 텍스트:\n", extracted_text)
