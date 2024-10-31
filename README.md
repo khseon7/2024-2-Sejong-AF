@@ -7,7 +7,6 @@
 4. 3.을 실행했을 때 아래와 같은 화면이 나오면 성공!
 <img width="1512" alt="image" src="https://github.com/user-attachments/assets/eba01c04-2325-49bb-9778-e375ecf59cfa">
 
-## 앞으로 구현해야 할 것들
-
-- 현재 처음 녹음하는 음성이 출력이 안되어서 그거 조정해야 할 듯
-- 저장된 이미지에서 OCR 적용하여 텍스트로 변환 및 출력 기능
+### 남은 일
+- 남은 기초 기능들 구현
+- requirement.txt 작성
