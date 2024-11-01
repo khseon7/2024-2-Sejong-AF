@@ -268,3 +268,23 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.translate-button {
+    font-size: 10px; /* 원하는 크기로 조정 */
+    background-color:#fefefe;
+    border-radius: 10%;
+    border:1px solid rgba(0,0,0,0.01);
+}
+.translate-button:hover{
+    background-color:#e3e3e3
+}
+
+.reset-button{
+    font-size : 10px;
+    background-color:#fefefe;
+    border-radius: 10%;
+    border:1px solid rgba(0,0,0,0.01);
+}
+.reset-button:hover{
+    background-color:#e3e3e3
+}
