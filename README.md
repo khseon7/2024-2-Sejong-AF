@@ -14,8 +14,10 @@ npm install
 ```
 python start_both.py
 ```
-5. 위 코드를 실행했을 때 아래와 같은 화면이 나오면 성공!
+5. 위 코드를 실행했을 때 아래와 같은 화면이 나오면 성공
 <img width="1512" alt="image" src="https://github.com/user-attachments/assets/eba01c04-2325-49bb-9778-e375ecf59cfa">                   
+
+음원 부분은 아직 문재 해결이 되지 않아 음성 녹음이 끝나고 팝업이 나온후 `업로드` 버튼을 누르면 됩니다.
 
 <div align="center">
   <h3>📖기술 스택📖</h3>
