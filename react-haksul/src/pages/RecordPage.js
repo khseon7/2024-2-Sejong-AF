@@ -18,6 +18,9 @@ function App() {
     const [showImageUploadModal, setShowImageUploadModal] = useState(false); // 이미지 팝업 모달
     const [selectedImages, setSelectedImages] = useState([]); // 여러 이미지를 저장할 상태
 
+    const [showPDFUploadModal, setShowPDFUploadModal] = useState(false); // PDF 모달 상태
+    const [selectedPDFs, setSelectedPDFs] = useState([]); // 선택된 PDF 파일 배열
+
     const [transcriptions, setTranscriptions] = useState({}); // mp3 to text
 
     const mediaRecorder = useRef(null); // 녹음 관련
@@ -200,9 +203,40 @@ function App() {
     };
     // 이미지 OCR
 
+    // PDF 업로드 기능
     const uploadPDF = () => {
-        // PDF 업로드 기능 구현
+        setShowPDFUploadModal(true);
     };
+    const handlePDFSelection = (event) => {
+        setSelectedPDFs([...event.target.files]); // 선택한 파일을 배열로 저장
+    };
+    const handlePDFUpload = async () => {
+        if (selectedPDFs.length === 0) return;
+    
+        const formData = new FormData();
+        selectedPDFs.forEach((pdf, index) => {
+            formData.append(`pdf_${index}`, pdf); // 각 PDF 파일을 formData에 추가
+        });
+    
+        try {
+            const response = await fetch('http://localhost:8000/upload-pdfs/', { // Django 엔드포인트
+                method: 'POST',
+                body: formData,
+            });
+    
+            if (response.ok) {
+                alert('PDF 파일이 성공적으로 업로드되었습니다!');
+                setSelectedPDFs([]); // 성공적으로 업로드 후 선택된 파일 초기화
+                setShowPDFUploadModal(false); // 업로드 후 모달 닫기
+            } else {
+                alert('PDF 업로드 중 오류가 발생했습니다.');
+            }
+        } catch (error) {
+            console.error('업로드 오류:', error);
+            alert('업로드 중 오류가 발생했습니다.');
+        }
+    };
+    // PDF 업로드 기능
 
     // 녹음본 STT
     const fetchTranscriptions = async () => {
@@ -325,6 +359,21 @@ function App() {
                     </div>
                 </div>
             )}
+        
+        {/* pdf 팝업창 */}
+        {showPDFUploadModal && (
+            <div className="modal">
+                <div className="modal-content">
+                    <span className="close" onClick={() => setShowPDFUploadModal(false)}>&times;</span>
+                    <h3>PDF 업로드</h3>
+                    <input type="file" accept=".pdf" multiple onChange={handlePDFSelection} />
+                    {selectedPDFs.length > 0 && (
+                        <p>{selectedPDFs.length}개의 PDF가 선택되었습니다.</p>
+                    )}
+                    <button onClick={handlePDFUpload}>업로드</button>
+                </div>
+            </div>
+        )}
 
         <div className="footer">
             <p id="status">준비 완료</p>
