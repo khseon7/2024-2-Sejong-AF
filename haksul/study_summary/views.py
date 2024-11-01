@@ -63,16 +63,16 @@ def transcribe_audio_files(request):
     audio_dir=os.path.join(settings.MEDIA_ROOT,'audio_files')
     transcriptions={}
     whisper_stt=WhisperSTT()
-    t=myT5("study_summary/results/results/checkpoint-840")
+    # t=myT5("study_summary/results/results/checkpoint-840")
     
     for filename in os.listdir(audio_dir):
         
         if filename.endswith('.mp3'):
             file_path=os.path.join(audio_dir,filename)
             transcription = whisper_stt.transcribe(file_path)
-            print(transcription)
-            # transcriptions[filename]=transcription
-            transcriptions[filename]=t.predict(transcription)
+            # print(transcription)
+            transcriptions[filename]=transcription
+            # transcriptions[filename]=t.predict(transcription)
     return JsonResponse({'transcriptions':transcriptions})
 
 def convert_images_to_text(request):
