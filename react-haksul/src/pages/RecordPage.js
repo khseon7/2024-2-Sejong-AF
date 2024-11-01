@@ -56,10 +56,6 @@ function App() {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     mediaRecorder.current = new MediaRecorder(stream);
 
-                    // mediaRecorder.current.ondataavailable = (event) => {
-                    //     audioChunks.current.push(event.data);
-                    // };
-
                     audioChunks.current = []; // 녹음 시작 시 audioChunks 초기화
 
                     mediaRecorder.current.ondataavailable = (event) => {

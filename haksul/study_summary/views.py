@@ -1,12 +1,9 @@
 import os
 from django.conf import settings
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import AudioRecording, ImageUpload, PDFUpload
 from .all_class import WhisperSTT, myOCR
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
 
 # Create your views here.
 @csrf_exempt
