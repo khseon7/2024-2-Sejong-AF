@@ -1,5 +1,9 @@
 import whisper, ssl, cv2
 from easyocr import Reader
+from transformers import T5Tokenizer, T5ForConditionalGeneration
+
+from django.conf import settings
+import os
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -45,3 +49,29 @@ class myOCR:
     # ocr_model = myOCR()
     # extracted_text = ocr_model.predict(image)
     # print("\n추출된 텍스트:\n", extracted_text)
+
+class myT5:
+    def __init__(self, modelpath):
+        model_dir = os.path.join(settings.BASE_DIR, modelpath)
+        self.loadmodel = T5ForConditionalGeneration.from_pretrained(modelpath)
+        self.tokenizer = T5Tokenizer.from_pretrained('digit82/kolang-t5-base')
+
+    def predict(self, text):
+        tokens = self.tokenizer.encode(text)
+        num_tokens = len(tokens)
+        print(f"\033[92m{num_tokens}\033[0m") 
+        inputs = self.tokenizer.encode(text, return_tensors="pt", max_length=512, truncation=True)
+        summary_ids = self.loadmodel.generate(inputs, max_length=150, num_beams=2, early_stopping=True)
+
+        # 수정된 부분: 첫 번째 결과만 디코딩
+        summary_predicted = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+        return summary_predicted
+    
+    # 실행 예시
+    # n = "Today, let's observe the short agenda as shown on this slide."
+    # t = classT5.myT5("results/checkpoint-840")
+    # print("check")
+    # result = t.predict(n)
+    # print(f"\033[92m{n}\033[0m") 
+    # print("Trans")
+    # print(f"\033[92m{result}\033[0m") 

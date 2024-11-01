@@ -3,7 +3,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import AudioRecording, ImageUpload, PDFUpload
-from .all_class import WhisperSTT, myOCR
+from .all_class import WhisperSTT, myOCR, myT5
 
 # Create your views here.
 @csrf_exempt
@@ -59,28 +59,31 @@ def upload_pdfs(request):
         
     return JsonResponse({'error': '잘못된 요청입니다'}, status=400)
 
-
-
 def transcribe_audio_files(request):
     audio_dir=os.path.join(settings.MEDIA_ROOT,'audio_files')
     transcriptions={}
     whisper_stt=WhisperSTT()
+    t=myT5("study_summary/results/results/checkpoint-840")
     
     for filename in os.listdir(audio_dir):
+        
         if filename.endswith('.mp3'):
             file_path=os.path.join(audio_dir,filename)
             transcription = whisper_stt.transcribe(file_path)
-            transcriptions[filename]=transcription
+            print(transcription)
+            # transcriptions[filename]=transcription
+            transcriptions[filename]=t.predict(transcription)
     return JsonResponse({'transcriptions':transcriptions})
 
 def convert_images_to_text(request):
     photo_dir=os.path.join(settings.MEDIA_ROOT,'photo')
     transcriptions={}
+    t=myT5("study_summary/results/results/checkpoint-1800")
     
     for filename in os.listdir(photo_dir):
         if filename.endswith('.jpg') or filename.endswith('.png'):
             image_path = os.path.join(photo_dir, filename)
             ocr_result = myOCR().predict(image_path)  # MyOCR 클래스를 사용한 텍스트 변환
-            transcriptions[filename] = ocr_result
+            transcriptions[filename] = t.predict(ocr_result)
 
     return JsonResponse({'transcriptions': transcriptions})
