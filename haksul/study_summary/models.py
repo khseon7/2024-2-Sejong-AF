@@ -16,3 +16,10 @@ class ImageUpload(models.Model):
 
     def __str__(self):
         return f"Image uploaded at {self.uploaded_at}"
+
+class PDFUpload(models.Model):
+    pdf_file = models.FileField(upload_to='pdf/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image uploaded at {self.uploaded_at}"
