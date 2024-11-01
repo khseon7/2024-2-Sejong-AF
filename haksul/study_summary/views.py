@@ -3,8 +3,10 @@ from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import AudioRecording, ImageUpload
+from .models import AudioRecording, ImageUpload, PDFUpload
 from .all_class import WhisperSTT, myOCR
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 # Create your views here.
 @csrf_exempt
@@ -33,6 +35,34 @@ def upload_images(request):
 
         return JsonResponse({'message': '이미지 업로드 성공', 'files': saved_files})
     return JsonResponse({'error': '잘못된 요청입니다'}, status=400)
+
+@csrf_exempt
+def upload_pdfs(request):
+    if request.method == 'POST':
+        pdf_files = request.FILES.items()  # 여러 PDF 파일을 가져옴
+        saved_files = []
+
+        # media/pdf 폴더가 없으면 생성
+        pdf_folder = os.path.join(settings.MEDIA_ROOT, 'pdf')
+        os.makedirs(pdf_folder, exist_ok=True)
+
+        for key, pdf_file in pdf_files:  # 각 파일을 key, pdf_file로 분리
+            # 파일 확장자가 .pdf인지 확인
+            if pdf_file.name.lower().endswith('.pdf'):
+                # PDF 파일을 PDFUpload 모델에 저장
+                saved_file = PDFUpload.objects.create(pdf_file=pdf_file)
+                saved_files.append(saved_file.pdf_file.url)  # 저장된 파일의 URL 저장
+            else:
+                print(f"잘못된 파일 형식: {pdf_file.name}")
+
+        if saved_files:
+            return JsonResponse({'message': 'PDF 파일 업로드 성공', 'files': saved_files})
+        else:
+            return JsonResponse({'error': 'PDF 파일만 업로드할 수 있습니다.'}, status=400)
+        
+    return JsonResponse({'error': '잘못된 요청입니다'}, status=400)
+
+
 
 def transcribe_audio_files(request):
     audio_dir=os.path.join(settings.MEDIA_ROOT,'audio_files')
