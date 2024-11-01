@@ -293,7 +293,7 @@ function App() {
                         <span className="icon-text">음성</span>
                     </div>
                     <button className="reset-button" onClick={resetAudioBlobs}>초기화</button>
-
+                    
                     <button className="translate-button" onClick={fetchTranscriptions}>녹음 변환</button> {/* 녹음 번역 버튼 추가 */}
 
                     <div className="icon-button" onClick={capturePhoto}>
