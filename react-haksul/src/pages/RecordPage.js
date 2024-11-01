@@ -31,6 +31,11 @@ function App() {
         setIsSidebarHidden(!isSidebarHidden);
     };
 
+    const resetAudioBlobs = () => { // Blobs 배열 초기화
+        setAudioBlobs([]);
+        alert("녹음 데이터가 초기화되었습니다.");
+    };
+
     // toggleSTT 관련 함수들
     const toggleSTT = () => {
         setIsListening((prev) => !prev);
@@ -287,6 +292,8 @@ function App() {
                         <img src={microphoneIcon} alt="음성" className="icon" />
                         <span className="icon-text">음성</span>
                     </div>
+                    <button className="reset-button" onClick={resetAudioBlobs}>초기화</button>
+
                     <button className="translate-button" onClick={fetchTranscriptions}>녹음 변환</button> {/* 녹음 번역 버튼 추가 */}
 
                     <div className="icon-button" onClick={capturePhoto}>
